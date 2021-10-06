@@ -3,12 +3,22 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/verit/AndroidStudioProjects/BAMX_almacenista/app/src/main/res/drawable/alertdialog.xml" value="0.1953125" />
         <entry key="..\:/Users/verit/AndroidStudioProjects/BAMX_almacenista/app/src/main/res/drawable/button_rounded.xml" value="0.3158974358974359" />
         <entry key="..\:/Users/verit/AndroidStudioProjects/BAMX_almacenista/app/src/main/res/drawable/form_editable.xml" value="0.3158974358974359" />
         <entry key="..\:/Users/verit/AndroidStudioProjects/BAMX_almacenista/app/src/main/res/drawable/form_noeditable.xml" value="0.3158974358974359" />
+        <entry key="..\:/Users/verit/AndroidStudioProjects/BAMX_almacenista/app/src/main/res/drawable/ic_close.xml" value="0.20677083333333332" />
         <entry key="..\:/Users/verit/AndroidStudioProjects/BAMX_almacenista/app/src/main/res/layout/activity_main.xml" value="0.22" />
+        <entry key="..\:/Users/verit/AndroidStudioProjects/BAMX_almacenista/app/src/main/res/layout/detalle_entrega.xml" value="0.22" />
+        <entry key="..\:/Users/verit/AndroidStudioProjects/BAMX_almacenista/app/src/main/res/layout/donativo_editable.xml" value="0.22" />
+        <entry key="..\:/Users/verit/AndroidStudioProjects/BAMX_almacenista/app/src/main/res/layout/donativo_entregado.xml" value="0.22" />
+        <entry key="..\:/Users/verit/AndroidStudioProjects/BAMX_almacenista/app/src/main/res/layout/encabezado.xml" value="0.25" />
         <entry key="..\:/Users/verit/AndroidStudioProjects/BAMX_almacenista/app/src/main/res/layout/fragment_donativo_entregado.xml" value="0.22" />
-        <entry key="..\:/Users/verit/AndroidStudioProjects/BAMX_almacenista/app/src/main/res/layout/toolbar.xml" value="0.14817629179331307" />
+        <entry key="..\:/Users/verit/AndroidStudioProjects/BAMX_almacenista/app/src/main/res/layout/layout_entrega.xml" value="0.3046875" />
+        <entry key="..\:/Users/verit/AndroidStudioProjects/BAMX_almacenista/app/src/main/res/layout/login.xml" value="0.192481884057971" />
+        <entry key="..\:/Users/verit/AndroidStudioProjects/BAMX_almacenista/app/src/main/res/layout/otra.xml" value="0.22" />
+        <entry key="..\:/Users/verit/AndroidStudioProjects/BAMX_almacenista/app/src/main/res/layout/proximas_entregas.xml" value="0.16304347826086957" />
+        <entry key="..\:/Users/verit/AndroidStudioProjects/BAMX_almacenista/app/src/main/res/layout/toolbar.xml" value="0.22" />
       </map>
     </option>
   </component>

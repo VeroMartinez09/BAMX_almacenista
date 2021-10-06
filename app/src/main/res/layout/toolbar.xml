@@ -5,8 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/toolbar"
-    tools:context=".MainActivity">
+    android:id="@+id/toolbar">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -17,12 +16,12 @@
             android:id="@+id/bar"
             android:layout_width="match_parent"
             android:layout_height="?actionBarSize"
-            android:orientation="horizontal"
             android:background="#F8A700"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="@+id/icon_salir"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:gravity="center_vertical">
+            app:layout_constraintTop_toTopOf="parent">
 
 
             <ImageView
@@ -31,7 +30,7 @@
                 android:layout_height="30dp"
                 android:layout_marginStart="15dp"
                 android:src="@drawable/ic_arrow_back"
-                app:tint="@color/white"/>
+                app:tint="@color/white" />
 
             <ImageView
                 android:id="@+id/imgLogo"
@@ -67,10 +66,5 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!-- Área dinámica-->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/contenedor"
-        android:orientation="vertical" />
 
 </androidx.drawerlayout.widget.DrawerLayout>
