@@ -1,20 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".DonativoEntregado">
-
-    <androidx.constraintlayout.widget.ConstraintLayout
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".DonativoRegistrado">
+        tools:context=".DonativoEntregado">
 
+        <include
+            layout="@layout/toolbar"/>
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/txtDonativo"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="80dp"
@@ -27,14 +24,14 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <LinearLayout
-            android:layout_width="350dp"
+            android:layout_width="340dp"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView">
+            app:layout_constraintTop_toBottomOf="@+id/txtDonativo">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -96,11 +93,12 @@
                     android:textSize="16sp" />
 
                 <TextView
-                    android:id="@+id/txtSucursal"
+                    android:id="@+id/txtOperador"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:background="@drawable/form_noeditable"
+                    android:gravity="center_vertical"
                     android:text="@string/txtOperador"
                     android:textSize="18sp" />
             </LinearLayout>
@@ -135,6 +133,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:background="@drawable/form_noeditable"
+                    android:gravity="center"
                     android:text="@string/txtAbarrote"
                     android:textSize="18sp" />
             </LinearLayout>
@@ -159,6 +158,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:background="@drawable/form_noeditable"
+                    android:gravity="center"
                     android:text="@string/txtFrutaVerdura"
                     android:textSize="18sp" />
             </LinearLayout>
@@ -183,6 +183,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:background="@drawable/form_noeditable"
+                    android:gravity="center"
                     android:text="@string/txtPan"
                     android:textSize="16sp" />
             </LinearLayout>
@@ -207,6 +208,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:background="@drawable/form_noeditable"
+                    android:gravity="center"
                     android:text="@string/txtNoComestible"
                     android:textSize="18sp" />
             </LinearLayout>
@@ -238,6 +240,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:background="@drawable/form_noeditable"
+                    android:gravity="center"
                     android:text="@string/txtTotal"
                     android:textSize="18sp" />
             </LinearLayout>
@@ -266,6 +269,4 @@
             </LinearLayout>
 
         </LinearLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-</FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

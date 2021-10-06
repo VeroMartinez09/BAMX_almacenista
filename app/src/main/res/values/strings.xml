@@ -22,6 +22,14 @@
     <string name="txtTotal">Cantidad</string>
     <string name="btnGuardar">Guardar</string>
     <string name="btnEditar">Editar</string>
+    <string name="btnContinuar">Continuar</string>
+    <string name="btnCancelar">Cancelar</string>
+
+    <string name="titulo">Enviar información</string>
+    <string name="mensaje">¿Está seguro que desea realizar esta acción?</string>
+    <string name="no">NO</string>
+    <string name="si">SI</string>
+    <string name="ok">¡Datos enviados correctamente!</string>
 
 
     <!-- TODO: Remove or change this placeholder text -->
