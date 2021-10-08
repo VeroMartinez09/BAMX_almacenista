@@ -1,5 +1,6 @@
 package mx.tec.bamx_almacenista
 
+import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
@@ -104,19 +105,35 @@ class DonativoEntregado : AppCompatActivity() {
             startActivity(intent)
         }
 
-        /*
-        val builder = AlertDialog.Builder(this)
-        btnGuardar.setOnClickListener {
-            builder.setCan
-            builder.setTitle("Enviar información")
-            builder.setMessage("¿Está seguro que desea realizar esta acción?")
-            builder.setPositiveButton("SI") { dialogInterface: DialogInterface, i: Int ->
-                //Do something
-            }
-            builder.setNegativeButton("NO") { dialogInterface: DialogInterface, i: Int -> }
-            builder.show()
+        icon_salir.setOnClickListener {
+            logout()
+        }
+    }
 
-        }*/
+    fun logout() {
+        icon_salir.setOnClickListener{
+            println("DISTE CLICK BRO")
+
+            val sharedPreferences = getSharedPreferences("login",
+                Context.MODE_PRIVATE)
+
+            MaterialAlertDialogBuilder(this)
+                .setCancelable(false)
+                .setTitle(resources.getString(R.string.tituloS))
+                .setMessage(resources.getString(R.string.mensajeS))
+                .setNegativeButton(resources.getString(R.string.no)) { dialog, which ->
+                    // Respond to negative button press
+                }
+                .setPositiveButton(resources.getString(R.string.si)) { dialog, which ->
+
+                    with(sharedPreferences.edit()){
+                        remove("usuario")
+                        commit()
+                    }
+                    this.finish()
+                }
+                .show()
+        }
     }
 
 }

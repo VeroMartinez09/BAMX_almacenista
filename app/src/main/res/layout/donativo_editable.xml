@@ -9,7 +9,7 @@
 
     <include
         android:id="@+id/include2"
-        layout="@layout/toolbar" />
+        layout="@layout/toolbarsinflecha"/>
 
     <TextView
         android:id="@+id/txtDonativoE"
@@ -135,6 +135,7 @@
                 android:layout_marginStart="10dp"
                 android:background="@drawable/form_editable"
                 android:gravity="center"
+                android:lines="1"
                 android:text="@string/txtAbarrote"
                 android:textSize="18sp" />
         </LinearLayout>
@@ -160,6 +161,7 @@
                 android:layout_marginStart="10dp"
                 android:background="@drawable/form_editable"
                 android:gravity="center"
+                android:lines="1"
                 android:text="@string/txtFrutaVerdura"
                 android:textSize="18sp" />
 
@@ -186,6 +188,7 @@
                 android:layout_marginStart="10dp"
                 android:background="@drawable/form_editable"
                 android:gravity="center"
+                android:lines="1"
                 android:text="@string/txtPan"
                 android:textSize="18sp" />
 
@@ -212,6 +215,7 @@
                 android:layout_marginStart="10dp"
                 android:background="@drawable/form_editable"
                 android:gravity="center"
+                android:lines="1"
                 android:text="@string/txtNoComestible"
                 android:textSize="18sp" />
 
@@ -264,12 +268,12 @@
                 android:text="@string/btnCancelar" />
 
             <Button
-                android:id="@+id/btnGuardarE"
+                android:id="@+id/btnConfirmaE"
                 android:layout_width="125dp"
                 android:layout_height="55dp"
                 android:layout_marginLeft="70dp"
                 android:backgroundTint="#F3071E"
-                android:text="@string/btnGuardar" />
+                android:text="@string/btnConfirmar" />
         </LinearLayout>
 
     </LinearLayout>
