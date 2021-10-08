@@ -44,7 +44,8 @@
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:hint="@string/edtUsername"
-                    android:inputType="textEmailAddress" />
+                    android:inputType="textEmailAddress"
+                    android:lines="1" />
 
                 <EditText
                     android:id="@+id/edtPassword"
@@ -53,7 +54,8 @@
                     android:layout_marginTop="5dp"
                     android:ems="10"
                     android:hint="@string/edtPassword"
-                    android:inputType="textPassword" />
+                    android:inputType="textPassword"
+                    android:lines="1" />
 
                 <Button
                     android:id="@+id/btnLogin"
