@@ -4,70 +4,56 @@ import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.android.volley.Request
+import com.android.volley.Response
+import com.android.volley.toolbox.JsonObjectRequest
+import com.android.volley.toolbox.Volley
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.android.synthetic.main.detalle_entrega.*
 import kotlinx.android.synthetic.main.donativo_entregado.*
 import kotlinx.android.synthetic.main.toolbar.*
+import mx.tec.bamx_almacenista.ListView.CantidadEntrega
 import mx.tec.bamx_almacenista.ListView.Model_Entrega
+import org.json.JSONObject
 
 class DonativoEntregado : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
-        var index: Int = 0
-        var estatus: Boolean = true
+        var total: Int = 0
         super.onCreate(savedInstanceState)
         setContentView(R.layout.donativo_entregado)
 
-        supportActionBar?.setDisplayHomeAsUpEnabled(true) // Habilita el botón de retroceso
+        val id = intent.getIntExtra("id", 0)
+        //val id: Int = 12
+        println("id " + id)
 
-        //val builder = AlertDialog.Builder(this)
+        var lista = intent.getStringArrayListExtra("lista")
+        println("lista " + lista)
 
-        /*btnGuardar.setOnClickListener {
-            builder.setTitle("Enviar información")
-            builder.setMessage("¿Está seguro que desea realizar esta acción?")
-            builder.setPositiveButton("SI") { dialogInterface: DialogInterface, i: Int ->
-                //Do something
-            }
-            builder.setNegativeButton("NO") { dialogInterface: DialogInterface, i: Int -> }
-            builder.show()
+        //txtDonativo.text = "DONATIVO " + (lista?.get(0) ?: 0)
+        if (lista != null) {
+            txtDonativo.text = "DONATIVO " + lista.get(1)
+            txtFechaHora.text = lista.get(2)
+            txtUbicacion.text = lista.get(3)
+            txtOperador.text = lista.get(4) + ' ' + lista.get(5) + ' ' + lista.get(6)
 
-        }*/
+            txtAbarrote.text = lista.get(7)
+            txtFrutaVerdura.text = lista.get(8)
+            txtPan.text = lista.get(9)
+            txtNoComestible.text = lista.get(10)
 
-        val datos = listOf(
-            Model_Entrega("Fernando", R.drawable.camion, "W01", "TLAHUAPAN", 50, 50, 50, 50),
-            Model_Entrega("Ricardo", R.drawable.camion, "W02",  "REFRIGERADOS",70, 30, 10, 50),
-            Model_Entrega("Lucio", R.drawable.camion, "W03",  "ZAPATA",90, 40, 50, 90),
-            Model_Entrega("Cristián", R.drawable.camion, "W04",  "TLAHUAPAN",7, 50, 6, 30),
-            Model_Entrega("Ángel", R.drawable.camion, "W05",  "REFRIGERADOS",8, 10, 6, 50),
-            Model_Entrega("Alejandro", R.drawable.camion, "W06",  "TLAHUAPAN",0, 50, 9, 50),
-        )
-
-        val operario = intent.getStringExtra("operario")
-
-        while(estatus) {
-            if(operario.equals(datos[index].operario)) {
-                txtDonativo.text = "DONATIVO " + datos[index].folio
-                txtOperador.text = datos[index].operario
-                txtUbicacion.text = datos[index].almacen
-                txtAbarrote.text = datos[index].cantAbarrote.toString()
-                txtFrutaVerdura.text = datos[index].cantFruta.toString()
-                txtPan.text = datos[index].cantPan.toString()
-                txtNoComestible.text = datos[index].cantNoComer.toString()
-                //exitProcess(0)
-                estatus = false
-            } else {
-                index += 1
-            }
+            total =
+                lista.get(7).toInt() + lista.get(8).toInt() + lista.get(9).toInt() + lista.get(10).toInt()
         }
 
-        val total: Int
-        total = datos[index].cantAbarrote + datos[index].cantFruta +datos[index].cantPan + datos[index].cantNoComer
         txtTotal.text = total.toString()
+
 
         icon_Back.setOnClickListener {
             val intent = Intent(this, Detalle_Entrega::class.java)
-            intent.putExtra("operario", datos[index].operario)
+            intent.putExtra("id", id)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
             startActivity(intent)
         }
@@ -82,14 +68,16 @@ class DonativoEntregado : AppCompatActivity() {
                 }
                 .setPositiveButton(resources.getString(R.string.si)) { dialog, which ->
                     // Respond to positive button press
-                    val builder = AlertDialog.Builder(this,  R.style.ThemeOverlay_App_MaterialAlertDialog)
+                    val builder =
+                        AlertDialog.Builder(this, R.style.ThemeOverlay_App_MaterialAlertDialog)
                     builder.setMessage(resources.getString(R.string.ok))
                     builder.setIcon(R.drawable.checked)
                     builder.setCancelable(false)
                     builder.setPositiveButton("OK") { dialogInterface: DialogInterface, i: Int ->
-                            //Do something
+                        //Do something
                         val intent = Intent(this@DonativoEntregado, ProximasEntregas::class.java)
-                        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                        intent.flags =
+                            Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
                         startActivity(intent)
                     }
 
@@ -100,7 +88,8 @@ class DonativoEntregado : AppCompatActivity() {
 
         btnEditar.setOnClickListener {
             val intent = Intent(this@DonativoEntregado, DonativoEditable::class.java)
-            intent.putExtra("operario", datos[index].operario)
+            intent.putExtra("id", id)
+            intent.putStringArrayListExtra("lista", lista)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
             startActivity(intent)
         }

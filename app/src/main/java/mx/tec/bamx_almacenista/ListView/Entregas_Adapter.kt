@@ -8,11 +8,12 @@ import android.widget.BaseAdapter
 import android.widget.ImageView
 import android.widget.TextView
 import mx.tec.bamx_almacenista.R
-import org.w3c.dom.Text
 
-class Entregas_Adapter(val context: Context,
-                       val layout: Int,
-                       val dataSource: List<Model_Entrega>): BaseAdapter() {
+class Entregas_Adapter(
+    val context: Context,
+    val layout: Int,
+    val dataSource: List <Model_Entrega>
+    ): BaseAdapter() {
     override fun getCount(): Int {
         return dataSource.size
     }
@@ -48,8 +49,8 @@ class Entregas_Adapter(val context: Context,
         val elemento = getItem(position) as Model_Entrega
 
         // Asignar valores a los controles
-        operario.text = elemento.operario
-        folio.text = elemento.folio
+        operario.text = elemento.nombre + ' ' + elemento.apPaterno + ' ' + elemento.apMaterno
+        folio.text = "Folio: " + elemento.folio.toString()
         imagen.setImageResource(elemento.imagen as Int)
 
 
