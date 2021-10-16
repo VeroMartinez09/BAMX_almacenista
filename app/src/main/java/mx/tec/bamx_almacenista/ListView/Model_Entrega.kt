@@ -2,6 +2,7 @@ package mx.tec.bamx_almacenista.ListView
 
 data class Model_Entrega(
     var id: Int,
+    var idBodega: Int,
     var nombre: String,
     var apPaterno: String,
     var apMaterno: String,
