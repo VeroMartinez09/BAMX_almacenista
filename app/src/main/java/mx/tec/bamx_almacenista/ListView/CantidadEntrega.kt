@@ -14,4 +14,6 @@ data class CantidadEntrega (
     var cantFruta: Int,
     var cantPan: Int,
     var cantNoComer: Int,
+
+    var estatus: String
     )

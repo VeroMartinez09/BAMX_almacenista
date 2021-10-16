@@ -8,25 +8,27 @@ import android.util.Log
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.android.volley.Request
-import com.android.volley.Response
+import com.android.volley.RequestQueue
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.android.synthetic.main.detalle_entrega.*
+import kotlinx.android.synthetic.main.donativo_editable.*
 import kotlinx.android.synthetic.main.donativo_entregado.*
 import kotlinx.android.synthetic.main.toolbar.*
-import mx.tec.bamx_almacenista.ListView.CantidadEntrega
-import mx.tec.bamx_almacenista.ListView.Model_Entrega
 import org.json.JSONObject
 
 class DonativoEntregado : AppCompatActivity() {
+
+    lateinit var queue: RequestQueue
+
     override fun onCreate(savedInstanceState: Bundle?) {
         var total: Int = 0
         super.onCreate(savedInstanceState)
         setContentView(R.layout.donativo_entregado)
 
+        queue = Volley.newRequestQueue(this@DonativoEntregado)
         val id = intent.getIntExtra("id", 0)
-        //val id: Int = 12
         println("id " + id)
 
         var lista = intent.getStringArrayListExtra("lista")
@@ -75,9 +77,9 @@ class DonativoEntregado : AppCompatActivity() {
                     builder.setCancelable(false)
                     builder.setPositiveButton("OK") { dialogInterface: DialogInterface, i: Int ->
                         //Do something
+                        update()
                         val intent = Intent(this@DonativoEntregado, ProximasEntregas::class.java)
-                        intent.flags =
-                            Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
                         startActivity(intent)
                     }
 
@@ -97,6 +99,25 @@ class DonativoEntregado : AppCompatActivity() {
         icon_salir.setOnClickListener {
             logout()
         }
+    }
+
+    fun update(){
+        val datos = JSONObject()
+        datos.put("estatus", "Completado")
+
+        val jsonObjectRequest = JsonObjectRequest(
+            Request.Method.PATCH,
+            "http://192.168.3.30:5000/warehouseman/editar-detalles/8",
+            datos,
+            { response ->
+                Log.e("VOLLEYRESPONSE", response.toString())
+            },
+            { error ->
+                Log.e("VOLLEYRESPONSE", error.message!!)
+            }
+
+        )
+        queue.add(jsonObjectRequest)
     }
 
     fun logout() {

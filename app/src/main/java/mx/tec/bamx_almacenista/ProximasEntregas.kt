@@ -20,27 +20,36 @@ import mx.tec.bamx_almacenista.ListView.Model_Entrega
 import org.json.JSONObject
 
 class ProximasEntregas : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
+
+        var bodegaid: Int = 7
+
+        override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.proximas_entregas)
 
+        var user = intent.getStringExtra("user")
         var queue = Volley.newRequestQueue(this@ProximasEntregas)
-        val url = "http://192.168.3.36:5000/warehouseman/datos-entrega"
+        val url = "http://192.168.3.30:5000/warehouseman/datos-entrega"
         val datos = mutableListOf<Model_Entrega>() // mutableListOf para lista dinámica
 
         val listener = Response.Listener<JSONObject> { response ->
             Log.e("RESPONSE", response.toString())
             val array = response.getJSONArray("data")
             for (i in 0 until array.length()) {
-                datos.add(
-                    Model_Entrega(array.getJSONObject(i).getInt("id"),
-                        array.getJSONObject(i).getString("nombre"),
-                        array.getJSONObject(i).getString("apellidoMaterno"),
-                        array.getJSONObject(i).getString("apellidoPaterno"),
-                        R.drawable.camion,
-                        "\n" + array.getJSONObject(i).getInt("folio")
+                if (bodegaid == array.getJSONObject(i).getInt("idBodega")) {
+                    datos.add(
+                        Model_Entrega(
+                            array.getJSONObject(i).getInt("id_Donation"),
+                            array.getJSONObject(i).getInt("idBodega"),
+                            array.getJSONObject(i).getString("nombre"),
+                            array.getJSONObject(i).getString("apellidoMaterno"),
+                            array.getJSONObject(i).getString("apellidoPaterno"),
+                            R.drawable.camion,
+                            "\n" + array.getJSONObject(i).getInt("folio")
 
-                ))
+                        )
+                    )
+                }
             }
 
             val adaptador = Entregas_Adapter(
@@ -51,7 +60,6 @@ class ProximasEntregas : AppCompatActivity() {
             lstEntregas.adapter = adaptador
 
         }
-
             val error = Response.ErrorListener { error ->
                 Log.e("ERROR", error.message!!)
             }

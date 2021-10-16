@@ -13,7 +13,6 @@ import kotlinx.android.synthetic.main.donativo_entregado.*
 import kotlinx.android.synthetic.main.layout_entrega.*
 import kotlinx.android.synthetic.main.toolbar.*
 import mx.tec.bamx_almacenista.ListView.CantidadEntrega
-import mx.tec.bamx_almacenista.ListView.Model_Entrega
 import org.json.JSONObject
 
 class Detalle_Entrega : AppCompatActivity() {
@@ -25,7 +24,7 @@ class Detalle_Entrega : AppCompatActivity() {
         setContentView(R.layout.detalle_entrega)
 
         var queue = Volley.newRequestQueue(this@Detalle_Entrega)
-        val url = "http://192.168.3.36:5000/warehouseman/detalle-entrega/12"
+        val url = "http://192.168.3.30:5000/warehouseman/detalle-entrega/7/8"
         val datos = mutableListOf<CantidadEntrega>() // mutableListOf para lista dinámica
         var lista = ArrayList<String>()
 
@@ -50,7 +49,10 @@ class Detalle_Entrega : AppCompatActivity() {
                         array.getJSONObject(i).getInt("kg_frutas_verduras"),
                         array.getJSONObject(i).getInt("kg_pan"),
                         array.getJSONObject(i).getInt("kg_abarrotes"),
-                        array.getJSONObject(i).getInt("kg_no_comestibles")
+                        array.getJSONObject(i).getInt("kg_no_comestibles"),
+
+                        array.getJSONObject(i).getString("estatus")
+
                     ))
                 if (id == datos[i].id) {
                     txtAbarroteCant.text = datos[i].cantAbarrote.toString()

@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.android.volley.Request
-import com.android.volley.Response
+import com.android.volley.RequestQueue
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -15,31 +15,32 @@ import kotlinx.android.synthetic.main.donativo_entregado.*
 import kotlinx.android.synthetic.main.toolbar.*
 import kotlinx.android.synthetic.main.toolbar.icon_salir
 import kotlinx.android.synthetic.main.toolbarsinflecha.*
-import mx.tec.bamx_almacenista.ListView.CantidadEntrega
-import mx.tec.bamx_almacenista.ListView.Model_Entrega
 import org.json.JSONObject
 
 class DonativoEditable : AppCompatActivity() {
+
+    lateinit var queue: RequestQueue
+    lateinit var lista: ArrayList<String>
+    var id: Int = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
-        var index: Int = 0
-        var total: Int = 0
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.donativo_editable)
 
-        var queue = Volley.newRequestQueue(this@DonativoEditable)
-        val url = "http://192.168.3.36:5000/warehouseman/editar-detalles/12"
-        val datos = mutableListOf<CantidadEntrega>() // mutableListOf para lista dinámica
+        queue = Volley.newRequestQueue(this@DonativoEditable)
 
-        val id = intent.getIntExtra("id", 0)
+        id = intent.getIntExtra("id", 0)
         //val id: Int = 12
 
-        var lista = intent.getStringArrayListExtra("lista")
+        lista = intent.getStringArrayListExtra("lista") as ArrayList<String>
+        println("listaEDIT " + lista)
 
         if (lista != null) {
-            txtDonativo.text = "DONATIVO " + lista.get(1)
-            txtFechaHora.text = lista.get(2)
-            txtUbicacion.text = lista.get(3)
-            txtOperador.text = lista.get(4) + ' ' + lista.get(5) + ' ' + lista.get(6)
+            txtDonativoE.text = "DONATIVO " + lista.get(1)
+            txtFechaHoraE.text = lista.get(2)
+            txtUbicacionE.text = lista.get(3)
+            txtOperadorE.text = lista.get(4) + ' ' + lista.get(5) + ' ' + lista.get(6)
 
             edtAbarrote.setText(lista.get(7))
             edtFrutaVerdura.setText(lista.get(8))
@@ -48,84 +49,80 @@ class DonativoEditable : AppCompatActivity() {
 
             // total = lista.get(7).toInt() + lista.get(8).toInt() + lista.get(9).toInt() + lista.get(10).toInt()
         }
-
-        val listener = Response.Listener<JSONObject> { response ->
-            Log.e("RESPONSE", response.toString())
-
-            val array = response.getJSONArray("data")
-            for (i in 0 until array.length()) {
-                datos.add(
-                    CantidadEntrega(array.getJSONObject(i).getInt("idDonativo"),
-                        array.getJSONObject(i).getString("folio"),
-                        array.getJSONObject(i).getString("fecha"),
-                        array.getJSONObject(i).getString("bodega"),
-                        array.getJSONObject(i).getString("nombre"),
-                        array.getJSONObject(i).getString("apellidoPaterno"),
-                        array.getJSONObject(i).getString("apellidoMaterno"),
-
-                        array.getJSONObject(i).getInt("kg_frutas_verduras"),
-                        array.getJSONObject(i).getInt("kg_pan"),
-                        array.getJSONObject(i).getInt("kg_abarrotes"),
-                        array.getJSONObject(i).getInt("kg_no_comestibles")
-                    ))
-
-
-                if (id == datos[i].id) {
-                    txtDonativoE.text = "DONATIVO " + datos[i].folio
-                    txtFechaHoraE.text = datos[i].fecha
-                    txtUbicacionE.text = datos[i].almacen
-                    txtOperadorE.text = datos[i].nombre + ' ' + datos[i].apPaterno + ' ' + datos[i].apMaterno
-
-                    edtAbarrote.setText(datos[i].cantAbarrote.toString())
-                    edtFrutaVerdura.setText(datos[i].cantFruta.toString())
-                    edtPan.setText(datos[i].cantPan.toString())
-                    edtNoComestible.setText(datos[i].cantNoComer.toString())
-
-                    total = datos[i].cantAbarrote + datos[i].cantFruta +datos[i].cantPan + datos[i].cantNoComer
-                    txtTotalE.text = total.toString()
-
-                    index = i
-
-                }
-            }
-
-        }
-
-            val error = Response.ErrorListener { error ->
-                Log.e("ERROR", error.message!!)
-            }
-
-            val edita = JsonObjectRequest(
-                Request.Method.PATCH,
-                url,
-                null,
-                listener,
-                error
-            )
-            queue.add(edita)
-
+        txtTotalE.text = "Calculando"
 
             btnConfirmaE.setOnClickListener {
-                val intent = Intent(this, DonativoEntregado::class.java)
-                intent.putExtra("operario", datos[index].id)
-                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-                startActivity(intent)
-            }
+                if (edtAbarrote.text.isEmpty())
+                    edtAbarrote.setText(0)
+                else if(edtFrutaVerdura.text.isEmpty())
+                    edtFrutaVerdura.setText(0)
+                else if(edtPan.text.isEmpty())
+                    edtPan.setText(0)
+                else if(edtNoComestible.text.isEmpty())
+                    edtNoComestible.setText(0)
+                /*
+                else if (edtAbarrote.text.isDigitsOnly())
+                    edtAbarrote.setError("¡Este valor es inválido!")
+                else if(edtFrutaVerdura.text.isDigitsOnly())
+                    edtFrutaVerdura.setError("¡Este valor es inválido!")
+                else if (edtPan.text.isDigitsOnly())
+                    edtPan.setError("¡Este valor es inválido!")
+                else if (edtNoComestible.text.isDigitsOnly())
+                    edtNoComestible.setError("¡Este valor es inválido!")*/
+                else
+                    onClic()
+                }
+
 
             btnCancelar.setOnClickListener {
                 val intent = Intent(this@DonativoEditable, DonativoEntregado::class.java)
-                intent.putExtra("operario", datos[index].id)
+                intent.putExtra("id", id)
+                intent.putStringArrayListExtra("lista", lista)
                 intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
                 startActivity(intent)
             }
-
 
             icon_salir.setOnClickListener {
                 logout()
             }
 
         }
+    fun onClic() {
+        update()
+        val intent = Intent(this, DonativoEntregado::class.java)
+        intent.putExtra("id", id)
+        intent.putStringArrayListExtra("lista", lista)
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+        startActivity(intent)
+    }
 
+    fun update(){
+        val datos = JSONObject()
+        datos.put("kg_frutas_verduras", edtAbarrote.text.toString())
+        datos.put("kg_pan", edtFrutaVerdura.text.toString())
+        datos.put("kg_abarrotes", edtPan.text.toString())
+        datos.put("kg_no_comestibles", edtNoComestible.text.toString())
+        datos.put("estatus", "Completado")
+
+        lista.add(7, (datos.getString("kg_frutas_verduras")))
+        lista.add(8, (datos.getString("kg_pan")))
+        lista.add(9, (datos.getString("kg_abarrotes")))
+        lista.add(10, (datos.getString("kg_no_comestibles")))
+
+        val jsonObjectRequest = JsonObjectRequest(
+            Request.Method.PATCH,
+            "http://192.168.3.30:5000/warehouseman/editar-detalles/8",
+            datos,
+            { response ->
+                Log.e("VOLLEYRESPONSE", response.toString())
+            },
+            { error ->
+                Log.e("VOLLEYRESPONSE", error.message!!)
+            }
+
+        )
+        queue.add(jsonObjectRequest)
+    }
 
     fun logout() {
         icon_salir.setOnClickListener{
