@@ -111,7 +111,7 @@ class DonativoEditable : AppCompatActivity() {
 
         val jsonObjectRequest = JsonObjectRequest(
             Request.Method.PATCH,
-            "http://192.168.3.30:5000/warehouseman/editar-detalles/8",
+            "http://192.168.3.36:5000/warehouseman/editar-detalles/${id}",
             datos,
             { response ->
                 Log.e("VOLLEYRESPONSE", response.toString())

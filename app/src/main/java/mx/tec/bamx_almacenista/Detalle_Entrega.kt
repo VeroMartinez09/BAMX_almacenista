@@ -23,12 +23,14 @@ class Detalle_Entrega : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.detalle_entrega)
 
+        var idBodega = intent.getIntExtra("idBodega", 0)
+        val id = intent.getIntExtra("id", 0)
+
         var queue = Volley.newRequestQueue(this@Detalle_Entrega)
-        val url = "http://192.168.3.30:5000/warehouseman/detalle-entrega/7/8"
+        val url = "http://192.168.3.36:5000/warehouseman/detalle-entrega/${idBodega}/${id}"
         val datos = mutableListOf<CantidadEntrega>() // mutableListOf para lista dinámica
         var lista = ArrayList<String>()
 
-        val id = intent.getIntExtra("id", 0)
         //val id: Int = 12
         println("id "+ id)
 

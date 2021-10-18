@@ -20,23 +20,20 @@ import mx.tec.bamx_almacenista.ListView.Model_Entrega
 import org.json.JSONObject
 
 class ProximasEntregas : AppCompatActivity() {
-
-        var bodegaid: Int = 7
-
         override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.proximas_entregas)
 
-        var user = intent.getStringExtra("user")
+        var idBodega = intent.getIntExtra("idBodega", 0)
+
         var queue = Volley.newRequestQueue(this@ProximasEntregas)
-        val url = "http://192.168.3.30:5000/warehouseman/datos-entrega"
+        val url = "http://192.168.3.36:5000/warehouseman/datos-entrega/${idBodega}"
         val datos = mutableListOf<Model_Entrega>() // mutableListOf para lista dinámica
 
         val listener = Response.Listener<JSONObject> { response ->
             Log.e("RESPONSE", response.toString())
             val array = response.getJSONArray("data")
             for (i in 0 until array.length()) {
-                if (bodegaid == array.getJSONObject(i).getInt("idBodega")) {
                     datos.add(
                         Model_Entrega(
                             array.getJSONObject(i).getInt("id_Donation"),
@@ -49,7 +46,6 @@ class ProximasEntregas : AppCompatActivity() {
 
                         )
                     )
-                }
             }
 
             val adaptador = Entregas_Adapter(
@@ -75,6 +71,7 @@ class ProximasEntregas : AppCompatActivity() {
 
         lstEntregas.setOnItemClickListener { parent, view, position, id ->
                 val intent = Intent(this@ProximasEntregas, Detalle_Entrega::class.java)
+                intent.putExtra("idBodega", idBodega)
                 intent.putExtra("id", datos[position].id)
                 intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
                 startActivity(intent)
@@ -87,7 +84,6 @@ class ProximasEntregas : AppCompatActivity() {
 
     fun logout() {
         icon_salir.setOnClickListener{
-            println("DISTE CLICK BRO")
 
             val sharedPreferences = getSharedPreferences("login",
                 Context.MODE_PRIVATE)
