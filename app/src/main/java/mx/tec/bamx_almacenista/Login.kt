@@ -12,6 +12,7 @@ import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import kotlinx.android.synthetic.main.donativo_editable.*
 import kotlinx.android.synthetic.main.login.*
+import mx.tec.bamx_almacenista.ListView.Model_Entrega
 import org.json.JSONObject
 
 class Login : AppCompatActivity() {
@@ -47,20 +48,27 @@ class Login : AppCompatActivity() {
 
             val jsonObjectRequest = JsonObjectRequest(
                 Request.Method.POST,
-                "http://192.168.3.30:5000/warehouseman/login",
+                "http://192.168.3.36:5000/warehouseman/login",
                 datos,
                 { response ->
                     // Usuario correcto
-                    Log.e("VOLLEYRESPONSE", response.toString())
+                    Log.e("USER ", response.toString())
+                    val idBodega = response.getJSONObject("data").getJSONObject("almacenista")
+                    datos.put("idBodega", idBodega.getInt("idBodega"))
+
+                    println("DATOS " + datos)
+
                     with(sharedPreferences.edit()){
                         putString("usuario", edtUsername.text.toString())
                         commit()
                     }
+                    intent.putExtra("idBodega", datos.getInt("idBodega"))
+                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
                     startActivity(intent)
                 },
                 { error ->
                     // Usuario incorrecto
-                    Log.e("VOLLEYRESPONSE", error.message!!)
+                    Log.e("USER ", error.message!!)
                     Toast.makeText(this,
                         "Usuario o contraseña incorrectas",
                         Toast.LENGTH_LONG).show()

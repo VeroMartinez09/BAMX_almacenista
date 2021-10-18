@@ -21,6 +21,7 @@ import org.json.JSONObject
 class DonativoEntregado : AppCompatActivity() {
 
     lateinit var queue: RequestQueue
+    var id: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         var total: Int = 0
@@ -29,6 +30,7 @@ class DonativoEntregado : AppCompatActivity() {
 
         queue = Volley.newRequestQueue(this@DonativoEntregado)
         val id = intent.getIntExtra("id", 0)
+
         println("id " + id)
 
         var lista = intent.getStringArrayListExtra("lista")
@@ -107,7 +109,7 @@ class DonativoEntregado : AppCompatActivity() {
 
         val jsonObjectRequest = JsonObjectRequest(
             Request.Method.PATCH,
-            "http://192.168.3.30:5000/warehouseman/editar-detalles/8",
+            "http://192.168.3.36:5000/warehouseman/editar-detalles/${id}",
             datos,
             { response ->
                 Log.e("VOLLEYRESPONSE", response.toString())
