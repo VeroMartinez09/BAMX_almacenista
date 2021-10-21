@@ -16,11 +16,14 @@ import kotlinx.android.synthetic.main.toolbar.*
 import kotlinx.android.synthetic.main.toolbar.icon_salir
 import kotlinx.android.synthetic.main.toolbarsinflecha.*
 import org.json.JSONObject
+import java.util.*
+import kotlin.collections.ArrayList
 
 class DonativoEditable : AppCompatActivity() {
 
     lateinit var queue: RequestQueue
     lateinit var lista: ArrayList<String>
+    var idBodega: Int = 0
     var id: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,8 +34,7 @@ class DonativoEditable : AppCompatActivity() {
         queue = Volley.newRequestQueue(this@DonativoEditable)
 
         id = intent.getIntExtra("id", 0)
-        //val id: Int = 12
-
+        idBodega = intent.getIntExtra("idBodega", 0)
         lista = intent.getStringArrayListExtra("lista") as ArrayList<String>
         println("listaEDIT " + lista)
 
@@ -46,6 +48,7 @@ class DonativoEditable : AppCompatActivity() {
             edtFrutaVerdura.setText(lista.get(8))
             edtPan.setText(lista.get(9))
             edtNoComestible.setText(lista.get(10))
+            txtFechaHoraE.text = lista.get(11)
 
             // total = lista.get(7).toInt() + lista.get(8).toInt() + lista.get(9).toInt() + lista.get(10).toInt()
         }
@@ -60,15 +63,6 @@ class DonativoEditable : AppCompatActivity() {
                     edtPan.setText(0)
                 else if(edtNoComestible.text.isEmpty())
                     edtNoComestible.setText(0)
-                /*
-                else if (edtAbarrote.text.isDigitsOnly())
-                    edtAbarrote.setError("¡Este valor es inválido!")
-                else if(edtFrutaVerdura.text.isDigitsOnly())
-                    edtFrutaVerdura.setError("¡Este valor es inválido!")
-                else if (edtPan.text.isDigitsOnly())
-                    edtPan.setError("¡Este valor es inválido!")
-                else if (edtNoComestible.text.isDigitsOnly())
-                    edtNoComestible.setError("¡Este valor es inválido!")*/
                 else
                     onClic()
                 }
@@ -76,6 +70,7 @@ class DonativoEditable : AppCompatActivity() {
 
             btnCancelar.setOnClickListener {
                 val intent = Intent(this@DonativoEditable, DonativoEntregado::class.java)
+                intent.putExtra("idBodega", idBodega)
                 intent.putExtra("id", id)
                 intent.putStringArrayListExtra("lista", lista)
                 intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
@@ -88,40 +83,17 @@ class DonativoEditable : AppCompatActivity() {
 
         }
     fun onClic() {
-        update()
+        lista.add(7, edtAbarrote.text.toString())
+        lista.add(8, edtFrutaVerdura.text.toString())
+        lista.add(9, edtPan.text.toString())
+        lista.add(10, edtNoComestible.text.toString())
+
         val intent = Intent(this, DonativoEntregado::class.java)
+        intent.putExtra("idBodega", idBodega)
         intent.putExtra("id", id)
         intent.putStringArrayListExtra("lista", lista)
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
         startActivity(intent)
-    }
-
-    fun update(){
-        val datos = JSONObject()
-        datos.put("kg_frutas_verduras", edtAbarrote.text.toString())
-        datos.put("kg_pan", edtFrutaVerdura.text.toString())
-        datos.put("kg_abarrotes", edtPan.text.toString())
-        datos.put("kg_no_comestibles", edtNoComestible.text.toString())
-        datos.put("estatus", "Completado")
-
-        lista.add(7, (datos.getString("kg_frutas_verduras")))
-        lista.add(8, (datos.getString("kg_pan")))
-        lista.add(9, (datos.getString("kg_abarrotes")))
-        lista.add(10, (datos.getString("kg_no_comestibles")))
-
-        val jsonObjectRequest = JsonObjectRequest(
-            Request.Method.PATCH,
-            "http://192.168.3.36:5000/warehouseman/editar-detalles/${id}",
-            datos,
-            { response ->
-                Log.e("VOLLEYRESPONSE", response.toString())
-            },
-            { error ->
-                Log.e("VOLLEYRESPONSE", error.message!!)
-            }
-
-        )
-        queue.add(jsonObjectRequest)
     }
 
     fun logout() {
@@ -144,7 +116,10 @@ class DonativoEditable : AppCompatActivity() {
                         remove("usuario")
                         commit()
                     }
-                    this.finish()
+                    val intent = Intent(this@DonativoEditable, Login::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                    startActivity(intent)
+                    //this.finish()
                 }
                 .show()
         }

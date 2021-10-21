@@ -38,7 +38,7 @@ class Login : AppCompatActivity() {
 
         btnLogin.setOnClickListener {
             val intent = Intent(this@Login, ProximasEntregas::class.java)
-            println("Diste click en el boton LogIn")
+            println("Diste clic en el boton LogIn")
         //    if(usuario.text.toString() == "Verito" && // <- Petición volley al API
         //        password.text.toString() == "mando")
 
@@ -48,30 +48,35 @@ class Login : AppCompatActivity() {
 
             val jsonObjectRequest = JsonObjectRequest(
                 Request.Method.POST,
-                "http://192.168.3.36:5000/warehouseman/login",
+                "http://192.168.3.48:5000/warehouseman/login",
                 datos,
                 { response ->
-                    // Usuario correcto
+                        // Usuario correcto
+                        val idBodega = response.getJSONObject("data").getJSONObject("almacenista")
+                        datos.put("idBodega", idBodega.getInt("idBodega"))
+
+                        println("DATOS " + datos)
+
+                        with(sharedPreferences.edit()) {
+                            putString("usuario", edtUsername.text.toString())
+                            commit()
+                        }
+                        intent.putExtra("idBodega", datos.getInt("idBodega"))
+                        intent.flags =
+                            Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                        startActivity(intent)
                     Log.e("USER ", response.toString())
-                    val idBodega = response.getJSONObject("data").getJSONObject("almacenista")
-                    datos.put("idBodega", idBodega.getInt("idBodega"))
 
-                    println("DATOS " + datos)
-
-                    with(sharedPreferences.edit()){
-                        putString("usuario", edtUsername.text.toString())
-                        commit()
-                    }
-                    intent.putExtra("idBodega", datos.getInt("idBodega"))
-                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-                    startActivity(intent)
                 },
                 { error ->
-                    // Usuario incorrecto
-                    Log.e("USER ", error.message!!)
-                    Toast.makeText(this,
-                        "Usuario o contraseña incorrectas",
-                        Toast.LENGTH_LONG).show()
+                        // Usuario incorrecto
+                        Log.e("USER ", error.message!!)
+                        Toast.makeText(
+                            this,
+                            "Usuario o contraseña incorrectas",
+                            Toast.LENGTH_LONG
+                        ).show()
+
                 }
 
             )

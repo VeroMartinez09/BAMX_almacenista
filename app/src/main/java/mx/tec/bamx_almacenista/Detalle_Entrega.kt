@@ -27,7 +27,7 @@ class Detalle_Entrega : AppCompatActivity() {
         val id = intent.getIntExtra("id", 0)
 
         var queue = Volley.newRequestQueue(this@Detalle_Entrega)
-        val url = "http://192.168.3.36:5000/warehouseman/detalle-entrega/${idBodega}/${id}"
+        val url = "http://192.168.3.48:5000/warehouseman/detalle-entrega/${idBodega}/${id}"
         val datos = mutableListOf<CantidadEntrega>() // mutableListOf para lista dinámica
         var lista = ArrayList<String>()
 
@@ -85,24 +85,6 @@ class Detalle_Entrega : AppCompatActivity() {
                 }
             }
         }
-       /* println("index "+ index)
-        while(estatus) {
-            if (id != null) {
-                if (id == datos[index].id) {
-                    txtAbarroteCant.text = datos[index].cantAbarrote.toString()
-                    txtFrutaVCant.text = datos[index].cantFruta.toString()
-                    txtPanCant.text = datos[index].cantPan.toString()
-                    txtNoComerCant.text = datos[index].cantNoComer.toString()
-                    //exitProcess(0)
-                    estatus = false
-                } else if(datos.length <= index){
-                    index += 1
-                } else {
-                    estatus = false
-                }
-            }
-        }*/
-
             val error = Response.ErrorListener { error ->
                 Log.e("ERROR", error.message!!)
             }
@@ -118,6 +100,7 @@ class Detalle_Entrega : AppCompatActivity() {
 
         btnContinuar.setOnClickListener {
             val intent = Intent(this@Detalle_Entrega, DonativoEntregado::class.java)
+            intent.putExtra("idBodega", idBodega)
             intent.putExtra("id", datos[index].id)
             intent.putStringArrayListExtra("lista", lista)
             // Quita login del stack y deja al MAin como principal
@@ -127,6 +110,7 @@ class Detalle_Entrega : AppCompatActivity() {
 
         ic_Close.setOnClickListener{
             val intent = Intent(this, ProximasEntregas::class.java)
+            intent.putExtra("idBodega", idBodega)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
             startActivity(intent)
         }

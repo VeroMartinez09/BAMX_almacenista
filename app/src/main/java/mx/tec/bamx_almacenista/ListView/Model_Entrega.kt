@@ -7,7 +7,7 @@ data class Model_Entrega(
     var apPaterno: String,
     var apMaterno: String,
     var imagen: Int, // tipo de objeto. También puede ser drawable, imageView
-    var folio: String,
+    var folio: Int,
     //var almacen: String,
     //var cantAbarrote: Int,
     //var cantFruta: Int,
